@@ -1,0 +1,59 @@
+extends layout
+
+block title
+    title Admin-Users
+
+block stylesheets
+
+block user
+    li.active
+        a(href='/admin/user')
+            i.bx.bx-user
+            span Users 
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2 Users
+                a(href='/admin/user/add')
+                    i.bx.bx-user-plus
+            ol
+                li
+                    a(href='/admin/') Home
+                li Users
+
+    .body-container
+        - var n=0;
+        table    
+            thead
+                tr
+                    th.user_no
+                        h1 No.
+                    th.user_username
+                        h1 Name
+                    th.user_role
+                        h1 Role    
+                    th.user_email
+                        h1 Email Id
+                    th.options
+                        h1 Actions
+                tbody
+                    for user in users
+                        tr
+                            td.user_no= ++n 
+                            td.user_name.title
+                                a(href='/admin/user/' + user._id + '/edit')= user.username
+                            td.user_role= user.role
+                            td.user_email= user.email
+                            td.options.actions
+                                form(action='/admin/user/' + user._id+'?_method=DELETE' method='POST')
+                                    button.btn.btn-red(type='submit')
+                                        svg
+                                            rect(x='0' y='0' fill='none' width='100%' height='100%')
+                                        | Delete   
+                    else
+                        tr 
+                            td No values are present.
+
+
+

@@ -1,0 +1,56 @@
+extends layout
+
+block title
+    title Admin-UserDetails
+
+block stylesheets
+
+block user
+    li.active
+        a(href='/admin/user')
+            i.bx.bx-user
+            span Users
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2 Edit User
+            ol
+                li
+                    a(href='/') Home
+                li Users
+                li User Details
+    .body-container
+        .form-container
+            form(action="/admin/user/"+user._id+"?_method=PUT" method="POST")
+                .form-row.email-role
+                    .form-group
+                        .form-field
+                            label.username(for="username") Username
+                            input.text#username(type="text" name="username" placeholder="Enter username" value=user.username required)
+                    .form-group
+                        .form-field
+                            label.email(for="email") Email
+                            input.text#email(type="email" name="email" placeholder="Enter email-address" value=user.email required)
+                    .form-group
+                        .form-field
+                            label.role(for="role" ) Role
+                            input.text#role(type="text" name="role" placeholder="Enter role" value=user.role required)
+                    .form-group
+                        .form-field
+                            label.password(for="password") Password
+                            input.text#password(type="password" name="password" placeholder="Enter password")        
+                .form-row   
+                    .form-buttons
+                        button.btn.btn-green(type="submit") 
+                            svg
+                                rect(x='0' y='0' fill='none' width='100%' height='30px')
+                            |    Update
+                        a.btn.btn-white.cancel(href="/admin/user")
+                            svg
+                                rect(x='0' y='0' fill='none' width='100%' height='30px')
+                            |    Cancel
+                        //- a.delete(href="/admin/user/"+user._id+"?_method=PUT")
+
+
+block javascripts

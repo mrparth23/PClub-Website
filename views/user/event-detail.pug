@@ -1,0 +1,102 @@
+extends layout
+
+block title
+    title Event Page
+
+block stylesheet
+
+block event
+    li.active
+        a(href='/event') Events
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2= event.title
+            ol
+                li
+                    a(href='/') Home
+                li Events
+                li= event.title
+    section#event-details.event-details
+        .container
+            .event-carousel
+                .carousel-container
+                .event-info
+                    - var date = event.eventDate.toLocaleDateString([], {month: "2-digit",day: "2-digit",year: "numeric",});
+                    - const eventDate = date.substring(3, 5) + "-" + date.substring(0, 2) + "-" + date.substring(6, 11) + " " + event.eventDate.toLocaleTimeString([], {hour: "2-digit",minute:"2-digit",hour12: false,});
+
+                    h3 Event information
+                    ul
+                        li
+                            strong Category
+                            |   : #{event.category}  
+                        li
+                            strong Host
+                            |   : #{event.host}
+                        li
+                            strong Date
+                            |   : #{eventDate}
+                        li
+                            strong Registration URL
+                            p
+                                a(href=event.rsvpLink) #{event.rsvpLink}
+            .event-description
+                h2= event.title
+                p!= event.description
+
+block javascripts
+    script.
+        $().ready(function () {
+            $.ajax({
+                url: `/event/#{event._id}/getImages`,
+                method: "GET",
+                success: function (result) {
+                    if (result.error) {
+                        alert(result.error);
+                    } else {
+                        const carouselContainer = document.querySelector(".carousel-container");
+                        var carouselImages = '';
+                        for(var i=0;i<result.images.length;i++){
+                            carouselImages += `<div class="image-holder"><img src=`+result.images[i]+`}></div>`;
+                        }
+                        carouselImages += `<div id="cloneFirst" class="image-holder"><img src=`+result.images[0]+`></div>`;
+                        const data = `<div class="carousel-slide">`+carouselImages+`</div>`;
+                        carouselContainer.innerHTML = data;
+                        carousel();
+                    }
+                },
+            });
+        
+        });
+
+        function carousel(){
+            const carouselSlide = document.querySelector(".carousel-slide");
+
+            const carouselImage = carouselSlide.children;
+
+            let counter = 0;
+            const size = -100 / carouselImage.length;
+
+            carouselSlide.style.transform = "translateX(" + size * counter + "%)";
+
+            //- setInterval(nextImage, 3000);
+
+            function nextImage() {
+                if (counter >= carouselImage.length) return;
+                carouselSlide.style.transition = "transform 0.3s ease-in-out";
+                counter++;
+                carouselSlide.style.transform = "translateX(" + size * counter + "%)";
+            }
+
+
+            carouselSlide.addEventListener("transitionend", () => {
+                if (carouselImages[counter].id == "cloneFirst") {
+                    counter = 0;
+                    carouselSlide.style.transition = "none";
+                    carouselSlide.style.transform = "translateX(" + size * counter + "%)";
+                }
+            });
+        }
+        
+

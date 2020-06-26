@@ -1,0 +1,74 @@
+extends layout
+
+block title
+    title Homepage
+
+block stylesheet
+    style. 
+        .header {
+            background-image: none;
+        }
+
+block home
+    li.active
+        a(href='/') Home
+
+block content
+    section.heroBanner
+        .animation-holder
+            .animation
+                img(src='images/pclub_white_logo.png' alt='P-Club Logo')
+            .content-holder
+                div
+                    h2.title= homepage.headerTitle
+                    p.sub-title= homepage.headerSubtitle
+        .svg-shape
+            svg.svg-shape-divider(fill='' viewbox='0 0 1000 300' preserveaspectratio='none')
+                path(d='M 1000 299 l 2 -279 c -155 -36 -310 135 -415 164 c -102.64 28.35 -149 -32 -232 -31 c -80 1 -142 53 -229 80 c -65.54 20.34 -101 15 -126 11.61 v 54.39 z')
+                path(d='M 1000 286 l 2 -252 c -157 -43 -302 144 -405 178 c -101.11 33.38 -159 -47 -242 -46 c -80 1 -145.09 54.07 -229 87 c -65.21 25.59 -104.07 16.72 -126 10.61 v 22.39 z')
+                path(d='M 1000 300 l 1 -230.29 c -217 -12.71 -300.47 129.15 -404 156.29 c -103 27 -174 -30 -257 -29 c -80 1 -130.09 37.07 -214 70 c -61.23 24 -108 15.61 -126 10.61 v 22.39 z')
+
+    section.announcement-section
+        .container
+            .row
+                .announcement-left
+                    h2= homepage.announcementTitle
+                    p= homepage.announcementSubtitle
+                .announcement-right
+                    .carousel_wrapper
+                        .horizontal-carousel
+                            for announcement in announcements
+                                a(href=announcement.redirectLink target='_blank')
+                                    .carousel__item
+                                        p!= announcement.description
+                                        .announcement-details
+                                            .details
+                                                h4= announcement.title
+                                                p= announcement.category
+                            else
+                                | No more Announcements.
+    .event-section
+        .container
+            .row
+                .header-left
+                    h1= homepage.eventTitle
+                    a.primary-btn(href='/event')= homepage.eventButton 
+
+                .header-right
+                    .row
+                        for event in events
+                            - var date = event.eventDate.toLocaleDateString([], {month: "2-digit",day: "2-digit",year: "numeric",});
+                            - const timeStamp = date.substring(0, 2) + "-" + date.substring(3, 5) + "-" + date.substring(6, 11) + "  " +  event.eventDate.toLocaleTimeString([], {hour: "2-digit",minute:"2-digit",});
+                            .event
+                                a(href="/event/" + event._id target='_blank')
+                                    .event-card
+                                        h3= event.title
+                                        h6= event.host
+                                        p= event.category
+                                        .date= timeStamp
+                        else 
+                            | No more events     
+
+
+block javascripts
+    script(src='/js/carousel.js')          

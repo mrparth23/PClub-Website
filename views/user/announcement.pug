@@ -1,0 +1,23 @@
+extends layout
+
+block title
+    title Announcements
+
+block announcement
+    li.active
+        a(href='/announcement') Announcement
+
+block content
+    section.all-announcements
+        .container
+            h1.title= announcement.allAnnouncementTitle
+
+            .row
+                for announcement in announcements
+                    .announcement
+                        .announcement-card
+                            h3= announcement.title
+                            p!= announcement.description
+
+                else
+                    |No more announcements.      

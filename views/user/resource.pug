@@ -1,0 +1,64 @@
+extends layout
+
+block title
+    title Resources
+
+block resource
+    li.active
+        a(href='/resource') Resource
+
+block content
+    section.resource
+        .container
+            h1.title= resource.resourceTitle
+
+            if resources
+                table
+                    thead
+                        tr
+                            th
+                                h1 Title
+                            th
+                                h1 Tags
+                            th
+                                h1 Links
+                    tbody
+                        for resource in resources
+                            tr
+                                td.title= resource.title
+                                td.tags= resource.tags
+                                td.actions
+                                    span.btn.btn-blue(view="fileview" data-id=resource._id onclick="fileView(this);")
+                                        svg
+                                            rect(x='0' y='0' fill='none' width='100%' height='100%')
+                                        |   View 
+                        else
+                            | No resources available.                  
+            else
+                | No resources available.  
+
+block javascripts
+
+    script.
+        function fileView(e){
+            const id = e.getAttribute('data-id');
+            $.ajax({
+                url:"/resource/"+id +"/getFile",
+                method:"GET",
+                success:function(result){
+                    if(result.error){ 
+                        alert(result.error);
+                    } else {
+                        var byteString = atob(result.file.split(',')[1]);
+                        var mimeString = result.file.split(',')[0].split(':')[1].split(';')[0];
+                        var ab = new ArrayBuffer(byteString.length);
+                        var ia = new Uint8Array(ab);
+                        for (var i = 0; i < byteString.length; i++) {
+                            ia[i] = byteString.charCodeAt(i);
+                        }
+                        const blob= new Blob([ab], {type: mimeString});
+                        window.open(URL.createObjectURL(blob),"_blank");
+                    }
+                }
+            });
+        }

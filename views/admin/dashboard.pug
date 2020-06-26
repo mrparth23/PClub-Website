@@ -1,0 +1,58 @@
+extends layout
+
+block title
+    title Admin
+
+block stylesheets
+
+block dashboard
+    li.active
+        a(href='/admin/dashboard')
+            i.bx.bxs-dashboard
+            span Dashboard
+
+block content
+    .dashboard
+        .container
+            .event
+                .count= event
+                .content
+                    .title Events
+                    //- .btn
+            .resource
+                .count= resource
+                .content
+                    .title Resources 
+            .teamMember
+                .count= teamMember
+                .content
+                    .title Team Members
+            .member
+                .count= member
+                .content
+                    .title Members
+                    .btn
+                        a(id="csv" target="_blank" onclick="csv(this);")
+                            | Get details
+
+
+block javascripts
+    script.
+        $().ready(function (){
+            const element = document.querySelector("#csv");
+            $.ajax({
+                url: "/admin/csv",
+                method: "GET",
+                success: function (result) {
+                    if (result.error) {
+                        alert(error);
+                    } else {
+                        var encodedUri = encodeURI(result.csvContent);
+                        element.setAttribute("href", encodedUri);
+                        element.setAttribute("download", "my_data.csv");
+                    }
+                },
+            });
+        });
+        console.log();
+        //- localStorage.setItem();

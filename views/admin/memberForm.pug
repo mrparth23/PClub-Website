@@ -1,0 +1,91 @@
+extends layout
+
+block title
+    title Admin-Team Member
+
+block stylesheets
+    link(rel="stylesheet" href="/assets/filepond.css")
+    link(rel="stylesheet" href="/assets/filepond-plugin-image-preview.css")
+    link(rel="stylesheet" href="/assets/summernote-lite.css")
+
+block member
+    li.active
+        a(href='/admin/member')
+            i.bx.bxs-user-detail
+            span Team Members 
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2  Team Members
+                a(href='/admin/member/add')
+                    i.bx.bxs-user-plus
+            ol
+                li
+                    a(href='/') Home
+                li Team Members
+                li Members Details
+
+    .body-container
+        .form-container
+            form(action="/admin/member/save" method="POST")
+                .form-row
+                    .form-group
+                        .form-field
+                            label.name(for="name") Name
+                            input.text#name(type="text" name="name" placeholder="Enter name" value=member.name required)
+                    .form-group
+                        .form-field
+                            label.role(for="role" ) Role
+                            input.text#role(type="text" name="role" placeholder="Enter role" value=member.role required)
+                    .form-group
+                        .form-field
+                            label.dsignation(for="designation") Designation
+                            input.text#designation(type="text" name="designation" placeholder="Enter designation" value=member.designation required)
+                .form-group
+                    .form-field
+                        label.description(for="summernote") Description
+                        textarea.text#summernote(type="text" name="description" placeholder="Enter your text here")= member.description
+                .form-group
+                    .form-field
+                        label.photo(for="photo") Photo
+                        input.filepond#photo(type="image" name="photo" required)
+                .form-row
+                    .form-buttons
+                        button.btn.btn-green(type="submit") 
+                            svg
+                                rect(x='0' y='0' fill='none' width='100%' height='30px')
+                            |    Save
+                        a.btn.btn-white.cancel(href="/admin/member")
+                            svg
+                                rect(x='0' y='0' fill='none' width='100%' height='30px')
+                            |    Cancel
+
+
+block javascripts
+    script(src="/assets/filepond-plugin-file-encode.js")
+    script(src="/assets/filepond-plugin-image-preview.js")
+    script(src="/assets/filepond-plugin-image-resize.js")
+    script(src="/assets/filepond.js")
+    script(src="/assets/summernote-lite.js")
+    script(src="/js/summernoteEditor.js")
+
+    script.
+        FilePond.registerPlugin(
+            FilePondPluginImagePreview,
+            FilePondPluginImageResize,
+            FilePondPluginFileEncode
+        );
+
+        const memberPhoto = FilePond.create(document.querySelector("#photo"), {
+            name: "poster",
+            allowDownloadByUrl: false,
+            imagePreviewHeight: 170,
+            imageCropAspectRatio: "1:1",
+            imageResizeTargetWidth: 200,
+            imageResizeTargetHeight: 200,
+            styleLoadIndicatorPosition: "center bottom",
+            styleProgressIndicatorPosition: "right bottom",
+            styleButtonRemoveItemPosition: "left bottom",
+            styleButtonProcessItemPosition: "right bottom",
+        });

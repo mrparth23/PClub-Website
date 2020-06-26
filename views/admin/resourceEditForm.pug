@@ -1,0 +1,94 @@
+extends layout
+
+block title
+    title Admin-ResourceDetails
+
+block stylesheets
+    link(rel="stylesheet" href="/assets/filepond.css")
+    link(rel="stylesheet" href="/assets/filepond-plugin-image-preview.css")
+    link(rel="stylesheet" href="/assets/filepond-plugin-media-preview.css")
+    link(rel="stylesheet" href="/assets/summernote-lite.css")
+
+block resource
+    li.active
+        a(href='/admin/resource')
+            i.bx.bx-box
+            span Resources
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2 Edit Resource
+            ol
+                li
+                    a(href='/') Home
+                li Resources
+                li Resource Details
+    .body-container
+        - var resource_tags = resource.tags.toString();
+        .form-container
+            form(action="/admin/resource/"+resource._id+"?_method=PUT" method="POST")
+                .form-row.title-tag
+                    .form-group
+                        .form-field
+                            label.title(for="title") Title
+                            input.text#title(type="text" name="title" placeholder="Enter Title" value=resource.title required)
+                    .form-group
+                        .form-field
+                            label.tags(for="tags") Tags
+                            input.text#tags(type="text" name="tags" placeholder="Enter tags (delimeter: ',')" value=resource_tags required)
+                .form-group
+                    .form-field
+                        label.descriptio(for="summernote") Description
+                        textarea.text#summernote(type="text" name="description" placeholder="Enter your text here" required)= resource.description
+                .form-group
+                    .form-field
+                        label.file(for="file") File
+                        input.filepond#file(type="file" name="file" required)
+                .form-row
+                    .form-buttons
+                        button.btn.btn-green(type="submit") 
+                            svg
+                                rect(x='0' y='0' fill='none' width='100%' height='30px')
+                            |    Update
+                        a.btn.btn-white.cancel(href="/admin/resource")
+                            svg
+                                rect(x='0' y='0' fill='none' width='100%' height='30px')
+                            |    Cancel
+                        //- input.delete(type="submit" value="Delete")
+
+block javascripts
+    script(src="/assets/filepond-plugin-file-encode.js")
+    script(src="/assets/filepond-plugin-image-preview.js")
+    script(src="/assets/filepond-plugin-image-resize.js")
+    script(src="/assets/filepond-plugin-media-preview.js")
+    script(src="/assets/filepond.js")
+    script(src="/assets/summernote-lite.js")
+    script(src="/js/summernoteEditor.js")
+
+    script.
+        FilePond.registerPlugin(
+            FilePondPluginImagePreview,
+            FilePondPluginImageResize,
+            FilePondPluginFileEncode,
+            FilePondPluginMediaPreview
+        );
+
+        const fileInput = FilePond.create(document.querySelector("#file"), {
+            name: "file",
+            allowDownloadByUrl: true,
+        });
+
+        $().ready(function () {
+            $.ajax({
+                url: `/admin/resource/#{resource._id}/getFile`,
+                method: "GET",
+                success: function (result) {
+                    if (result.error) {
+                        alert(result.error);
+                    } else {
+                        fileInput.addFile(result.file);
+                    }
+                },
+            });
+        });

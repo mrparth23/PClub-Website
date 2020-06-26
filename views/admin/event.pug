@@ -1,0 +1,84 @@
+extends layout
+
+block title
+    title Admin-Event
+
+block stylesheets
+
+block event
+    li.active
+        a(href='/admin/event')
+            i.bx.bx-calendar-event
+            span Events
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2 Events
+                a(href='/admin/event/add')
+                    i.bx.bx-calendar-plus
+            ol
+                li
+                    a(href='/admin/') Home
+                li Events
+
+    .body-container
+
+        - var n=0;
+        table
+            thead
+                tr
+                    th.event_no
+                        h1 No.
+                    th.event_title
+                        h1 Title
+                    th.event_category
+                        h1 Category    
+                    th.event_date
+                        h1 Event-Date
+                    th.event_status
+                        h1 Active
+                    th.options
+                        h1 Actions
+                tbody
+                    for event in events
+                        - var date = event.eventDate.toLocaleDateString([], {month: "2-digit",day: "2-digit",year: "numeric",});
+                        - const event_date = date.substring(3, 5) + "-" + date.substring(0, 2) + "-" + date.substring(6, 11);
+                        tr
+                            td.event_no= ++n
+                            td.event_title.title
+                                a(href='/admin/event/' + event._id + '/edit')= event.title
+                            td.event_category= event.category
+                            td.event_date= event_date
+                            td.event_status.activeSwitch
+                                input(id="switch"+event._id type='checkbox' checked=event.isActive)
+                                label.toggler(for='switch'+event._id data-active=""+event.isActive data-model="event" data-id=event._id onclick="toggle(this);") Toggle
+                            td.options.actions
+                                form(action='/admin/event/' + event._id+'?_method=DELETE' method='POST')
+                                    button.btn.btn-red(type='submit')
+                                        svg
+                                            rect(x='0' y='0' fill='none' width='100%' height='100%')
+                                        | Delete  
+                    else
+                        tr 
+                            td.no No values are present.
+
+block javascripts
+    script.
+        function toggle(element) {
+            const model = element.getAttribute("data-model");
+            const id = element.getAttribute("data-id");
+            const active = element.getAttribute("data-active");
+            $.ajax({
+                url: "/admin/" + model + "/" + id + "/active/" + active,
+                method: "PUT",
+                success: function (result) {
+                    console.log(result);
+                    if (result.error) {
+                        alert(error);
+                    } else {
+                        element.setAttribute("data-active", "" + result.isActive);
+                    }
+                },
+            });
+        }

@@ -1,0 +1,58 @@
+extends layout
+
+block title
+    title Admin-Team Member
+
+block stylesheets
+
+block member
+    li.active
+        a(href='/admin/member')
+            i.bx.bxs-user-detail
+            span Team Members 
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2  Team Members
+                a(href='/admin/member/add')
+                    i.bx.bxs-user-plus
+            ol
+                li
+                    a(href='/admin/') Home
+                li Team Members
+
+    .body-container
+        - var n=0;
+        table    
+            thead
+                tr
+                    th.member_no
+                        h1 No.
+                    th.member_name
+                        h1 Name
+                    th.member_role
+                        h1 Role    
+                    th.member_designation
+                        h1 Designation
+                    th.options
+                        h1 Actions
+                tbody
+                    for member in members
+                        tr
+                            td.member_no= ++n 
+                            td.member_name.title
+                                a(href='/admin/member/' + member._id + '/edit')= member.name
+                            td.member_role= member.role
+                            td.member_designation= member.designation
+                            td.options.actions
+                                form(action='/admin/member/' + member._id+'?_method=DELETE' method='POST')
+                                    button.btn.btn-red(type='submit')
+                                        svg
+                                            rect(x='0' y='0' fill='none' width='100%' height='100%')
+                                        | Delete   
+                    else
+                        tr 
+                            td No values are present.
+
+

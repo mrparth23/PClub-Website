@@ -1,0 +1,67 @@
+extends layout
+
+block title
+    title Event
+
+block stylesheet
+    style. 
+        .header {
+            background-image: none;
+        }
+        .carousel__item {
+            background-image: none;
+        }
+        .carousel__item--active {
+            background-image: none;
+        }
+
+block event
+    li.active
+        a(href='/event') Events
+
+block content
+    section.upcoming-events
+        .container 
+            .row
+                .left
+                    .title= event.upcomingEventTitle
+                    .description= event.upcomingEventSubtitle 
+
+                .right
+                    .event-list
+                        .carousel_wrapper
+                            .horizontal-carousel
+                                for event in events
+                                    .carousel__item
+                                        .eventDetails
+                                            .img
+                                                a(href="/event/" + event._id target='_blank')
+                                                    img(src=event.getPoster alt='')
+                                else
+                                    |No more events.                            
+        .svg-shape
+            svg(width='100%' height='120' viewbox='0 0 1440 168' preserveaspectratio='none')
+                path(fill='#eee' fill-rule='evenodd' d='M1440 167.942H0V.222c242.674 45.41 436.067 66.161 580.18 62.257C796.348 56.622 1052.729-4.128 1205.299.223c101.714 2.9 179.947 11.223 234.701 24.969v142.75z')
+
+    section.all-events
+        .container
+            h1.title= event.allEventTitle
+            .row
+                for event in events
+                    - var date = event.eventDate.toLocaleDateString([], {month: "2-digit",day: "2-digit",year: "numeric",});
+                    - const timeStamp = date.substring(0, 2) + "-" + date.substring(3, 5) + "-" + date.substring(6, 11) + "  " +  event.eventDate.toLocaleTimeString([], {hour: "2-digit",minute:"2-digit",});
+                    .event
+                        a(href="/event/" + event._id target='_blank')
+                            .event-card
+                                h3= event.title
+                                h6= event.host
+                                p= event.category
+                                .date= timeStamp				
+
+                else
+                    |No more events.            
+
+
+
+block javascripts
+    script(src='/js/carousel.js')

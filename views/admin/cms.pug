@@ -1,0 +1,141 @@
+extends layout
+
+block title
+    title Admin-CMS
+
+block stylesheets
+
+block cms
+    li.active
+        a(href='/admin/cms/cmsForm')
+            i.bx.bx-message-square-edit
+            span CMS 
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2  CMS
+                a(href="/admin/cms/edit") 
+                    i.bx.bxs-message-square-edit
+            ol
+                li
+                    a(href='/admin/') Home
+                li CMS
+
+    .body-container
+
+        table
+            thead 
+                tr
+                    th.title.start
+                        a(href='#') Homepage
+                tbody
+                    tr
+                        td
+                            .tableRow
+                                .cms Header Title
+                                .value= cms.homepage.headerTitle
+                    tr
+                        td
+                            .tableRow
+                                .cms Header Sub-Title
+                                .value= cms.homepage.headerSubtitle
+                    tr
+                        td
+                            .tableRow
+                                .cms Announcement Title
+                                .value= cms.homepage.announcementTitle
+                    tr
+                        td
+                            .tableRow
+                                .cms Announcement Sub-Title
+                                .value= cms.homepage.announcementSubtitle
+                    tr
+                        td
+                            .tableRow
+                                .cms Event Title
+                                .value= cms.homepage.eventTitle 
+                    tr
+                        td
+                            .tableRow
+                                .cms Event Button
+                                .value= cms.homepage.eventButton 
+            thead 
+                tr
+                    th.title
+                        a(href='#') Event
+                tbody
+                    tr
+                        td
+                            .tableRow
+                                .cms Upcoming Event Title
+                                .value= cms.event.upcomingEventTitle
+                    tr
+                        td
+                            .tableRow
+                                .cms Upcoming Event Sub-Title
+                                .value= cms.event.upcomingEventSubtitle
+                    tr
+                        td
+                            .tableRow
+                                .cms All Event Title
+                                .value= cms.event.allEventTitle
+
+            thead 
+                tr
+                    th.title
+                        a(href='#') About Us
+                tbody
+                    tr
+                        td
+                            .tableRow
+                                .cms Motive
+                                .value= cms.aboutUs.aboutUsMotive
+                    tr
+                        td
+                            .tableRow
+                                .cms Leader Title
+                                .value= cms.aboutUs.leaderTitle
+                    tr
+                        td
+                            .tableRow
+                                .cms Member Title
+                                .value= cms.aboutUs.memberTitle
+
+            thead 
+                tr
+                    th.title
+                        a(href='#') Announcement
+                tbody
+                    tr
+                        td
+                            .tableRow
+                                .cms Announcement Title
+                                .value= cms.announcement.allAnnouncementTitle
+
+            thead 
+                tr
+                    th.title
+                        a(href='#') Resource
+                tbody
+                    tr
+                        td
+                            .tableRow
+                                .cms Resource Title
+                                .value= cms.resource.resourceTitle
+
+            thead 
+                tr
+                    th.title
+                        a(href='#') Footer
+                tbody
+                    tr
+                        td
+                            .tableRow
+                                .cms Email Title
+                                .value= cms.footer.emailTitle
+                    tr        
+                        td
+                            .tableRow
+                                .cms Email Sub-Title
+                                .value= cms.footer.emailSubtitle                                                          

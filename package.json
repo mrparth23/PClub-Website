@@ -1,0 +1,40 @@
+{
+    "name": "pclub",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "start": "node app.js",
+        "dev": "nodemon app.js"
+    },
+    "engines": {
+        "node": "12.18.0",
+        "npm": "6.14.4"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.19.0",
+        "cookie-parser": "~1.4.4",
+        "debug": "~2.6.9",
+        "dotenv": "^8.2.0",
+        "express": "~4.16.1",
+        "filepond": "^4.17.1",
+        "filepond-plugin-file-encode": "^2.1.6",
+        "filepond-plugin-get-file": "^1.0.3",
+        "filepond-plugin-image-edit": "^1.6.1",
+        "filepond-plugin-image-preview": "^4.6.4",
+        "filepond-plugin-image-resize": "^2.0.7",
+        "filepond-plugin-media-preview": "^1.0.5",
+        "http-errors": "~1.6.3",
+        "jquery": "^3.5.1",
+        "jsonwebtoken": "^8.5.1",
+        "method-override": "^3.0.0",
+        "mongoose": "^5.9.18",
+        "morgan": "~1.9.1",
+        "pug": "^3.0.0",
+        "summernote": "^0.8.18"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4"
+    },
+    "license": "MIT"
+}

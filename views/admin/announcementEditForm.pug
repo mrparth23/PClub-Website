@@ -1,0 +1,58 @@
+extends layout
+
+block title
+    title Admin-EventDetails
+
+block stylesheets
+    link(rel="stylesheet" href="/assets/filepond.css")
+    link(rel="stylesheet" href="/assets/filepond-plugin-image-preview.css")
+    link(rel="stylesheet" href="/assets/filepond-plugin-media-preview.css")
+    link(rel="stylesheet" href="/assets/summernote-lite.css")
+
+block announcement
+    li.active
+        a(href='/admin/announcement')
+            i.bx.bxs-news
+            span Announcements
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2 Edit Announcement
+            ol
+                li
+                    a(href='/') Home
+                li Announcements
+                li Announcement Details
+    .body-container
+        .form-container
+            form(action="/admin/announcement/"+announcement._id+"?_method=PUT" method="POST")
+                .form-row.title-category
+                    .form-group
+                        .form-field
+                            label.title(for="title") Title
+                            input.text#title(type="text" name="title" placeholder="Enter Title" value=announcement.title required)
+                    .form-group
+                        .form-field
+                            label.category(for="category") Category
+                            input.text#category(type="text" name="category" placeholder="Enter announcement category" value=announcement.category required)        
+                .form-group
+                    .form-field
+                        label.description(for="summernote") Description
+                        textarea.text#summernote(type="text" name="description" placeholder="Enter your text here" required)= announcement.description
+                .form-row
+                    .form-buttons
+                        button.btn.btn-green(type="submit") 
+                            svg
+                                rect(x='0' y='0' fill='none' width='100%' height='30px')
+                            |    Update
+                        a.btn.btn-white.cancel(href="/admin/announcement")
+                            svg
+                                rect(x='0' y='0' fill='none' width='100%' height='30px')
+                            |    Cancel
+
+
+
+block javascripts
+    script(src="/assets/summernote-lite.js")
+    script(src="/js/summernoteEditor.js")

@@ -1,0 +1,81 @@
+extends layout
+
+block title
+    title Admin-Resource
+
+block stylesheets
+
+block resource
+    li.active
+        a(href='/admin/resource')
+            i.bx.bx-box
+            span Resources
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2 Resources
+                a(href='/admin/resource/add')
+                    i.bx.bx-folder-plus
+            ol
+                li
+                    a(href='/admin/') Home
+                li Resources
+
+    .body-container
+        - var n = 0;
+
+        table
+            thead
+                tr
+                    th.resource_no
+                        h1 No.
+                    th.resource_title
+                        h1 Title
+                    th.resource_category
+                        h1 Category 
+                    th.resource_status
+                        h1 Active       
+                    th.options
+                        h1 Actions
+                tbody
+                    for resource in resources
+                        tr
+                            td.resource_no= ++n 
+                            td.resource_title.title
+                                a(href='/admin/resource/' + resource._id + '/edit')= resource.title
+                            td.resource_category= resource.tags
+                            td.resource_status.activeSwitch
+                                input(id="switch"+resource._id type='checkbox' checked=resource.isActive)
+                                label.toggler(for='switch'+resource._id data-active=""+resource.isActive data-model="resource" data-id=resource._id onclick="toggle(this);") Toggle
+                            td.options.actions
+                                form(action='/admin/resource/' + resource._id+'?_method=DELETE' method='POST')
+                                    button.btn.btn-red(type='submit')
+                                        svg
+                                            rect(x='0' y='0' fill='none' width='100%' height='100%')
+                                        | Delete   
+                    else
+                        tr 
+                            td No values are present.
+
+block javascripts
+    script.
+        function toggle(element) {
+            const model = element.getAttribute("data-model");
+            const id = element.getAttribute("data-id");
+            const active = element.getAttribute("data-active");
+            $.ajax({
+                url: "/admin/" + model + "/" + id + "/active/" + active,
+                method: "PUT",
+                success: function (result) {
+                    console.log(result);
+                    if (result.error) {
+                        alert(error);
+                    } else {
+                        element.setAttribute("data-active", "" + result.isActive);
+                    }
+                },
+            });
+        }
+
+

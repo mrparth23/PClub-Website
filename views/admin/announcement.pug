@@ -1,0 +1,79 @@
+extends layout
+
+block title
+    title Admin-Announcements
+
+block stylesheets
+
+block announcement             
+    li.active
+        a(href='/admin/announcement')
+            i.bx.bxs-news
+            span Announcements
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2 Announcements
+                a(href='/admin/announcement/add')
+                    i.bx.bx-bookmark-plus
+            ol
+                li
+                    a(href='/admin/') Home
+                li Announcements
+
+    .body-container
+        - var n=0;
+
+        table
+            thead
+                tr
+                    th.announcement_no
+                        h1 No.
+                    th.announcement_title
+                        h1 Title
+                    th.announcement_category
+                        h1 Category  
+                    th.announcement_status
+                        h1 Active
+                    th.options
+                        h1 Actions
+                tbody
+                    for announcement in announcements
+                        tr
+                            td.announcement_no= ++n
+                            td.announcement_title.title
+                                a(href='/admin/announcement/' + announcement._id +'/edit')= announcement.title
+                            td.announcement_category= announcement.category
+                            td.announcement_status.activeSwitch
+                                input(id="switch"+announcement._id type='checkbox' checked=announcement.isActive)
+                                label.toggler(for='switch'+announcement._id data-active=""+announcement.isActive data-model="announcement" data-id=announcement._id onclick="toggle(this);") Toggle
+                            td.options.actions
+                                form(action='/admin/announcement/' + announcement._id+'?_method=DELETE' method='POST')
+                                    button.btn.btn-red(type='submit')
+                                        svg
+                                            rect(x='0' y='0' fill='none' width='100%' height='100%')
+                                        | Delete  
+                    else
+                        tr 
+                            td No values are present.
+
+block javascripts
+    script.
+        function toggle(element) {
+            const model = element.getAttribute("data-model");
+            const id = element.getAttribute("data-id");
+            const active = element.getAttribute("data-active");
+            $.ajax({
+                url: "/admin/" + model + "/" + id + "/active/" + active,
+                method: "PUT",
+                success: function (result) {
+                    console.log(result);
+                    if (result.error) {
+                        alert(error);
+                    } else {
+                        element.setAttribute("data-active", "" + result.isActive);
+                    }
+                },
+            });
+        }

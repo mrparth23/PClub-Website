@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+
+        block title
+            title= Admin-layout
+
+        link(href='https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&family=Raleway:wght@300;400;700&display=swap' rel='stylesheet')
+
+        block stylesheets
+
+        link(rel="stylesheet" href="/css/boxicons.css")
+        link(rel='stylesheet' href='/css/admin.css')
+
+
+    body
+        div.nav-toggle
+            div.toggler
+
+        header.header
+            .header-container
+                .logo
+                    img(src='/images/pclub_white_logo.png' alt='')
+                h1 Admin
+            nav.nav-menu
+                ul#nav-list.nav-list
+                    block dashboard
+                        li
+                            a(href='/admin/dashboard')
+                                i.bx.bxs-dashboard
+                                span Dashboard
+                    block user
+                        li
+                            a(href='/admin/user')
+                                i.bx.bx-user
+                                span Users
+                    block announcement             
+                        li
+                            a(href='/admin/announcement')
+                                i.bx.bxs-news
+                                span Announcements
+                    block event
+                        li
+                            a(href='/admin/event')
+                                i.bx.bx-calendar-event
+                                span Events
+                    block resource
+                        li
+                            a(href='/admin/resource')
+                                i.bx.bx-box
+                                span Resources
+                    block member
+                        li
+                            a(href='/admin/member')
+                                i.bx.bxs-user-detail
+                                span Team Members    
+                    block cms
+                        li
+                            a(href='/admin/cms')
+                                i.bx.bx-message-square-edit
+                                span CMS
+
+                svg(width='5' height='476' viewbox='0 0 5 476')
+                    path.a(d='M 0,0 V476' transform='translate(2.5)')
+
+        .main
+            block content
+
+        script(src='/assets/jquery.js')
+        script.
+            const navbar = document.querySelector('.header');
+            $(document).ready(function () {
+                $("#nav-list").mousemove(function (event) {
+                    var offset = $(this).offset();
+                    var x = event.pageX - offset.left;
+                    var y = event.pageY - offset.top;
+                    $('.a').css({ "stroke-dashoffset": -68 * Math.floor(y / 68) });
+                });
+                $(document).mousemove(function (event) {
+                    $('.nav-toggle').css({"top":event.clientY-13});
+                });
+            });
+            const toggler = document.querySelector('.nav-toggle');
+            toggler.addEventListener('click',(e)=>{
+                toggler.classList.toggle("active");
+                navbar.classList.toggle("active");
+            })
+        block javascripts
+

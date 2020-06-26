@@ -1,0 +1,151 @@
+extends layout
+
+block title
+    title Admin-CMS
+
+block stylesheets
+
+block cms
+    li.active
+        a(href='/admin/cms')
+            i.bx.bx-message-square-edit
+            span CMS 
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2  CMS
+            ol
+                li
+                    a(href='/') Home
+                li CMS
+                li CMS Details
+
+    .body-container
+        form(action="/admin/cms/save?_method=PUT" method="POST")
+            table
+                thead 
+                    tr
+                        th.title.start
+                            a(href='#') Homepage
+                    tbody
+                        tr
+                            td
+                                .tableRow
+                                    .cms Header Title
+                                    input.value(name="headerTitle" value=cms.homepage.headerTitle required)
+                        tr
+                            td
+                                .tableRow
+                                    .cms Header Sub-Title
+                                    textarea.value(type="text" name="headerSubtitle" required)= cms.homepage.headerSubtitle
+                        tr
+                            td
+                                .tableRow
+                                    .cms Announcement Title
+                                    input.value(name="announcementTitle" value=cms.homepage.announcementTitle required)
+                        tr
+                            td
+                                .tableRow
+                                    .cms Announcement Sub-Title
+                                    textarea.value(type="text" name="announcementSubtitle" required)= cms.homepage.announcementSubtitle
+                        tr
+                            td
+                                .tableRow
+                                    .cms Event Title
+                                    input.value(name="eventTitle" value=cms.homepage.eventTitle required)
+                        tr
+                            td
+                                .tableRow
+                                    .cms Event Button
+                                    input.value(name="eventButton" value=cms.homepage.eventButton required)
+                thead 
+                    tr
+                        th.title
+                            a(href='#') Event
+                    tbody
+                        tr
+                            td
+                                .tableRow
+                                    .cms Upcoming-Event Title
+                                    input.value(name="upcomingEventTitle" value=cms.event.upcomingEventTitle required)
+                        tr
+                            td
+                                .tableRow
+                                    .cms Upcoming-Event Sub-Title
+                                    textarea.value(type="text" name="upcomingEventSubtitle" required)= cms.event.upcomingEventSubtitle
+                        tr
+                            td
+                                .tableRow
+                                    .cms All-Event Title
+                                    input.value(name="allEventTitle" value=cms.event.allEventTitle required)
+
+                thead 
+                    tr
+                        th.title
+                            a(href='#') About Us
+                    tbody
+                        tr
+                            td
+                                .tableRow
+                                    .cms Motive
+                                    textarea.value(type="text" name="aboutUsMotive" required)= cms.aboutUs.aboutUsMotive
+                        tr
+                            td
+                                .tableRow
+                                    .cms Leader Title
+                                    input.value(name="leaderTitle" value=cms.aboutUs.leaderTitle required)
+                        tr
+                            td
+                                .tableRow
+                                    .cms Member Title
+                                    input.value(name="memberTitle" value=cms.aboutUs.memberTitle required)
+                thead 
+                    tr
+                        th.title
+                            a(href='#') Announcement
+                    tbody
+                        tr
+                            td
+                                .tableRow
+                                    .cms Announcement Title
+                                    input.value(name="allAnnouncementTitle" value=cms.announcement.allAnnouncementTitle required)
+
+                thead 
+                    tr
+                        th.title
+                            a(href='#') Resource
+                    tbody
+                        tr
+                            td
+                                .tableRow
+                                    .cms Resource Title
+                                    input.value(name="resourceTitle" value=cms.resource.resourceTitle required)
+
+                thead 
+                    tr
+                        th.title
+                            a(href='#') Footer
+                    tbody
+                        tr
+                            td
+                                .tableRow
+                                    .cms Email Title
+                                    input.value(name="emailTitle" value=cms.footer.emailTitle required)
+                        tr        
+                            td
+                                .tableRow
+                                    .cms Email Sub-Title
+                                    textarea.value(type="text" name="emailSubtitle" required)= cms.footer.emailSubtitle
+
+            .form-row.cmsEdit
+                .form-field
+                    .form-buttons
+                        button.btn.btn-green(type="submit") 
+                            svg
+                                rect(x='0' y='0' fill='none' width='100%' height='30px')
+                            |    Update
+                        a.btn.btn-white.cancel(href="/admin/cms")
+                            svg
+                                rect(x='0' y='0' fill='none' width='100%' height='30px')
+                            |    Cancel

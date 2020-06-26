@@ -1,0 +1,112 @@
+extends layout
+
+block title
+    title Admin-EventDetails
+
+block stylesheets
+    link(rel="stylesheet" href="/assets/filepond.css")
+    link(rel="stylesheet" href="/assets/filepond-plugin-image-preview.css")
+    link(rel="stylesheet" href="/assets/summernote-lite.css")
+
+block event
+    li.active
+        a(href='/admin/event')
+            i.bx.bx-calendar-event
+            span Events
+
+block content
+    section#breadcrumbs.breadcrumbs
+        .container
+            h2 Add Event
+            ol
+                li
+                    a(href='/') Home
+                li Events
+                li Event Details
+    .body-container
+        .form-container
+            form(action="/admin/event/save" method="POST")
+                .form-row.texts
+                    .form-group
+                        .form-field
+                            label.title(for="title") Title
+                            input.text#title(type="text" name="title" placeholder="Enter Title" value=event.title required)
+                    .form-group
+                        .form-field
+                            label.category(for="category") Category
+                            input.text#category(type="text" name="category" placeholder="Enter event category" value=event.category required)
+                    .form-group
+                        .form-field
+                            label.host(for="host") Host
+                            input.text#host(type="text" name="host" placeholder="Enter host name" value=event.host required)
+                .form-group
+                    .form-field
+                        label.description(for="description") Description
+                        textarea.text#summernote(type="text" name="description" placeholder="Enter your text here" required)= event.description
+                .form-row.date-time
+                    .form-group
+                        .form-field
+                            label.date(for="eventDate") Event Date
+                            input.date#eventDate(type="date" name="eventDate" placeholder="" value=event.eventDate required)
+                    .form-group
+                        .form-field
+                            label.time(for="eventTime") Event Time
+                            input.time#eventTime(type="time" name="eventTime" placeholder="" value=event.eventTime required)
+                .form-group
+                    .form-field
+                        label(for="poster") Poster
+                        input.filepond.poster#poster(type="image" name="poster" placeholder="" required)
+                .form-group
+                    .form-field
+                        label(for="images") Images
+                        input.filepond.images#images(type="image" name="images" placeholder="" multiple)
+                .form-row   
+                    .form-group
+                        .form-field
+                            label.date(for="rsvpDate") Registration Date
+                            input.date#rsvpDate(type="date" name="rsvpDate" placeholder="" value=event.rsvpDate required)
+                    .form-group
+                        .form-field
+                            label.time(for="rsvpTime") Registeration Time
+                            input.time#rsvpTime(type="time" name="rsvpTime" placeholder="" value=event.rsvpTime required)
+                    .form-group
+                        .form-field
+                            label.link(for="rsvplink") Registration Link
+                            input.text#rsvpLink(type="url" name="rsvpLink" placeholder="Enter registration link" value=event.rsvpLink required)
+                .form-row
+                    .form-group
+                        .form-field
+                            label.link(for="photoLink") Photos Link
+                            input.text#photoLink(type="url" name="photoLink" placeholder="Enter photo link" value=event.photoLink required)
+                .form-row
+                    .form-buttons
+                        button.btn.btn-green(type="submit") 
+                            svg
+                                rect(x='0' y='0' fill='none' width='100%' height='30px')
+                            |    Save
+                        a.btn.btn-white.cancel(href="/admin/event")
+                            svg
+                                rect(x='0' y='0' fill='none' width='100%' height='30px')
+                            |    Cancel
+
+
+block javascripts
+    script(src="/assets/filepond-plugin-file-encode.js")
+    script(src="/assets/filepond-plugin-image-preview.js")
+    script(src="/assets/filepond-plugin-image-resize.js")
+    script(src="/assets/filepond.js")
+    script(src="/assets/summernote-lite.js")
+    script(src="/js/eventFileUpload.js")
+    script(src="/js/summernoteEditor.js")
+
+    script.
+        FilePond.registerPlugin(
+            FilePondPluginImagePreview,
+            FilePondPluginImageResize,
+            FilePondPluginFileEncode
+        );
+
+
+        const posterInput = FilePond.create(document.querySelector(".poster"));
+
+        const imagesInput = FilePond.create(document.querySelector(".images"));
