@@ -168,6 +168,7 @@ router.post("/email-subscription", async (req, res, next) => {
 		} else {
 			console.log("already exist");
 		}
+		res.send("Congratulation!! Your email is subscribed with PClub.");
 	} catch {
 		res.json({ error: "Not a valid AU email-address" });
 	}

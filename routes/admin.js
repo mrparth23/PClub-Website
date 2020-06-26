@@ -14,6 +14,8 @@ const Email = require("./../models/email");
 
 var imageMimeTypes = ["image/png", "image/jpg", "image/jpeg"];
 
+var user;
+
 // // // // //
 // Authentication
 // // // // //
@@ -23,39 +25,31 @@ router.get(["/login", "/register"], (req, res, next) => {
 });
 
 router.post("/authenticate", async (req, res, next) => {
-	let user;
 	try {
 		user = await Admin.findOne({ email: req.body.email });
 		if (user == null || user == []) {
-			console.log("Username or password do not match");
+			user = null;
 			res.render("admin/authenticate", {
 				error: "Username or password do not match",
 			});
-		} else if (user.password == req.body.password) {
-			console.log("hi");
-			jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, (err, token) => {
-				console.log(token);
-				// res.header("authorization", token);
-				res.redirect("/admin");
-			});
 		}
-		res.render("admin/authenticate", {
-			error: "Username or password do not match",
-		});
+		if (user.password == req.body.password) {
+			res.redirect("/admin");
+		}
 	} catch {
-		console.log("Username or password do not match");
 		res.render("admin/authenticate", {
 			error: "Username or password do not match",
 		});
 	}
+
+	res.redirect("/admin/login");
 });
 
 // // // // //
 // Dashboard
 // // // // //
 
-router.get(["/", "/dashboard"], async (req, res, next) => {
-	res.send(req.user.username);
+router.get(["/", "/dashboard"], authenticateToken, async (req, res, next) => {
 	const resource = await Resource.count();
 	const event = await Event.count();
 	const teamMember = await Member.count();
@@ -807,16 +801,7 @@ router.delete("/user/:id", async (req, res, next) => {
 });
 
 function authenticateToken(req, res, next) {
-	console.log(req.header("authorization"));
-	const authHeader = req.headers["authorization"];
-	const token = authHeader && authHeader.split(" ")[1];
-	if (token == null) return res.sendStatus(401);
-
-	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-		if (err) return res.sendStatus(403);
-		req.user = user;
-		next();
-	});
+	if (user == null) res.sendStatus(403);
 	next();
 }
 
