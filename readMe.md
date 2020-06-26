@@ -4,7 +4,7 @@
 </h1>
 
 <h3 align="center">Programming Club website with User and Admin frontend </h3>
-  
+
 <p align="center">
   <a href="https://www.javascript.com/">
     <img src="https://forthebadge.com/images/badges/made-with-javascript.svg">
@@ -38,7 +38,6 @@
   <a href="#requirements">Requirements</a> •
   <a href="#installation">Installation</a> 
 </p>
-
 ---
 
 ## Introduction
@@ -47,9 +46,12 @@ PClub website is a project developed with NodeJs framework and vanilla CSS to im
 
 ## Key-Feature
 
--   vanilla CSS
--   filepond
--   mongoDB
+-   Vanilla CSS ⟶ Easier to maintain and update. Lightweight code.
+-   Filepond ⟶ User friendly file drag and drop system with preview.
+-   MongoDB ⟶ Faster than sql database to reduce the execution time.
+-   Carousel ⟶ Slideshow for poster and images.
+-   Email Subscription ⟶ Get user a chance to connect with PCLub in order to receive updates.
+-   Responsive Template ⟶ Compatible for multiple types of device(Mobile, Laptop, Desktop, Tablet).
 
 ## Requirements
 
@@ -82,14 +84,15 @@ npm install --save
 
 ### Get it done & Running
 
--   wanna use project as "Production"
+-   If you want to use project as "Production"
 
 ```sh
 npm run start
 ```
 
--   wanna use project as "Development"
+-   If you want to use project as "Development"
 
 ```sh
 npm run dev
 ```
+
