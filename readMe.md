@@ -38,6 +38,7 @@
   <a href="#requirements">Requirements</a> •
   <a href="#installation">Installation</a> 
 </p>
+
 ---
 
 ## Introduction
