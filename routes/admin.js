@@ -54,7 +54,7 @@ router.post("/authenticate", async (req, res, next) => {
 // Dashboard
 // // // // //
 
-router.get(["/", "/dashboard"], authenticateToken, async (req, res, next) => {
+router.get(["/", "/dashboard"], async (req, res, next) => {
 	res.send(req.user.username);
 	const resource = await Resource.count();
 	const event = await Event.count();
