@@ -63,7 +63,7 @@ router.get(["/", "/dashboard"], authenticateToken, async (req, res, next) => {
 	});
 });
 
-router.get("/csv", async (req, res, next) => {
+router.get("/csv", authenticateToken, async (req, res, next) => {
 	const emails = await Email.find();
 
 	let csvContent = "data:text/csv;charset=utf-8,";
@@ -78,7 +78,7 @@ router.get("/csv", async (req, res, next) => {
 // Announcements
 // // // // //
 
-router.get("/announcement", async (req, res, next) => {
+router.get("/announcement", authenticateToken, async (req, res, next) => {
 	const announcements = await Announcement.find();
 	res.render("admin/announcement", { announcements: announcements });
 });
@@ -87,7 +87,7 @@ router.get("/announcement/add", (req, res, next) => {
 	res.render("admin/announcementForm", { announcement: new Announcement() });
 });
 
-router.post("/announcement/save", async (req, res, next) => {
+router.post("/announcement/save", authenticateToken, async (req, res, next) => {
 	const announcement = new Announcement({
 		title: req.body.title,
 		description: req.body.description,
@@ -104,18 +104,22 @@ router.post("/announcement/save", async (req, res, next) => {
 	}
 });
 
-router.get("/announcement/:id/edit", async (req, res, next) => {
-	try {
-		const announcement = await Announcement.findById(req.params.id);
-		res.render("admin/announcementEditForm", {
-			announcement: announcement,
-		});
-	} catch {
-		res.redirect("/admin/announcement");
+router.get(
+	"/announcement/:id/edit",
+	authenticateToken,
+	async (req, res, next) => {
+		try {
+			const announcement = await Announcement.findById(req.params.id);
+			res.render("admin/announcementEditForm", {
+				announcement: announcement,
+			});
+		} catch {
+			res.redirect("/admin/announcement");
+		}
 	}
-});
+);
 
-router.put("/announcement/:id", async (req, res, next) => {
+router.put("/announcement/:id", authenticateToken, async (req, res, next) => {
 	let announcement;
 	try {
 		announcement = await Announcement.findById(req.params.id);
@@ -136,53 +140,61 @@ router.put("/announcement/:id", async (req, res, next) => {
 	}
 });
 
-router.put("/announcement/:id/active/:state", async (req, res, next) => {
-	let announcement;
-	try {
-		announcement = await Announcement.findById(req.params.id);
-		if (req.params.state == "true") {
-			announcement.isActive = false;
-		} else {
-			announcement.isActive = true;
-		}
-		const newAnnouncement = await announcement.save();
-		console.log(newAnnouncement.isActive, Boolean(req.params.state));
-		res.json({
-			isActive: newAnnouncement.isActive,
-		});
-	} catch {
-		if (announcement == null) {
+router.put(
+	"/announcement/:id/active/:state",
+	authenticateToken,
+	async (req, res, next) => {
+		let announcement;
+		try {
+			announcement = await Announcement.findById(req.params.id);
+			if (req.params.state == "true") {
+				announcement.isActive = false;
+			} else {
+				announcement.isActive = true;
+			}
+			const newAnnouncement = await announcement.save();
+			console.log(newAnnouncement.isActive, Boolean(req.params.state));
 			res.json({
-				error: "No such announcement exist",
+				isActive: newAnnouncement.isActive,
 			});
-		} else {
-			res.json({
-				error: "Error updating announcement",
-			});
+		} catch {
+			if (announcement == null) {
+				res.json({
+					error: "No such announcement exist",
+				});
+			} else {
+				res.json({
+					error: "Error updating announcement",
+				});
+			}
 		}
 	}
-});
+);
 
-router.delete("/announcement/:id", async (req, res, next) => {
-	let announcement;
-	try {
-		announcement = await Announcement.findById(req.params.id);
-		await announcement.remove();
-		res.redirect("/admin/announcement");
-	} catch {
-		if (announcement == null) {
+router.delete(
+	"/announcement/:id",
+	authenticateToken,
+	async (req, res, next) => {
+		let announcement;
+		try {
+			announcement = await Announcement.findById(req.params.id);
+			await announcement.remove();
 			res.redirect("/admin/announcement");
-		} else {
-			res.redirect("/admin/announcement");
+		} catch {
+			if (announcement == null) {
+				res.redirect("/admin/announcement");
+			} else {
+				res.redirect("/admin/announcement");
+			}
 		}
 	}
-});
+);
 
 // // // // //
 // Events
 // // // // //
 
-router.get("/event", async (req, res, next) => {
+router.get("/event", authenticateToken, async (req, res, next) => {
 	const event = await Event.find();
 	res.render("admin/event", { events: event });
 });
@@ -191,7 +203,7 @@ router.get("/event/add", (req, res, next) => {
 	res.render("admin/eventForm", { event: new Event() });
 });
 
-router.post("/event/save", async (req, res, next) => {
+router.post("/event/save", authenticateToken, async (req, res, next) => {
 	const event = new Event({
 		title: req.body.title,
 		description: req.body.description,
@@ -214,7 +226,7 @@ router.post("/event/save", async (req, res, next) => {
 	}
 });
 
-router.get("/event/:id/edit", async (req, res, next) => {
+router.get("/event/:id/edit", authenticateToken, async (req, res, next) => {
 	try {
 		const event = await Event.findById(req.params.id, {
 			title: 1,
@@ -277,7 +289,7 @@ router.get("/event/:id/edit", async (req, res, next) => {
 	}
 });
 
-router.get("/event/:id/getPhoto", async (req, res, next) => {
+router.get("/event/:id/getPhoto", authenticateToken, async (req, res, next) => {
 	try {
 		const event = await Event.findById(req.params.id, {
 			title: 0,
@@ -298,7 +310,7 @@ router.get("/event/:id/getPhoto", async (req, res, next) => {
 	}
 });
 
-router.put("/event/:id", async (req, res, next) => {
+router.put("/event/:id", authenticateToken, async (req, res, next) => {
 	let event;
 	try {
 		event = await Event.findById(req.params.id);
@@ -328,34 +340,38 @@ router.put("/event/:id", async (req, res, next) => {
 	}
 });
 
-router.put("/event/:id/active/:state", async (req, res, next) => {
-	let event;
-	try {
-		event = await Event.findById(req.params.id);
-		if (req.params.state === "true") {
-			event.isActive = false;
-		} else {
-			event.isActive = true;
-		}
-		const newEvent = await event.save();
-		console.log(newEvent.isActive, Boolean(req.params.state));
-		res.json({
-			isActive: newEvent.isActive,
-		});
-	} catch {
-		if (event == null) {
+router.put(
+	"/event/:id/active/:state",
+	authenticateToken,
+	async (req, res, next) => {
+		let event;
+		try {
+			event = await Event.findById(req.params.id);
+			if (req.params.state === "true") {
+				event.isActive = false;
+			} else {
+				event.isActive = true;
+			}
+			const newEvent = await event.save();
+			console.log(newEvent.isActive, Boolean(req.params.state));
 			res.json({
-				error: "No such event exist",
+				isActive: newEvent.isActive,
 			});
-		} else {
-			res.json({
-				error: "Error updating event",
-			});
+		} catch {
+			if (event == null) {
+				res.json({
+					error: "No such event exist",
+				});
+			} else {
+				res.json({
+					error: "Error updating event",
+				});
+			}
 		}
 	}
-});
+);
 
-router.delete("/event/:id", async (req, res, next) => {
+router.delete("/event/:id", authenticateToken, async (req, res, next) => {
 	let event;
 	try {
 		event = await Event.findById(req.params.id);
@@ -413,7 +429,7 @@ function saveEventPhotos(event, posterEncoded, imagesEncoded) {
 // Resources
 // // // // //
 
-router.get("/resource", async (req, res, next) => {
+router.get("/resource", authenticateToken, async (req, res, next) => {
 	const resources = await Resource.find();
 	res.render("admin/resource", { resources: resources });
 });
@@ -422,7 +438,7 @@ router.get("/resource/add", (req, res, next) => {
 	res.render("admin/resourceForm", { resource: new Resource() });
 });
 
-router.post("/resource/save", async (req, res, next) => {
+router.post("/resource/save", authenticateToken, async (req, res, next) => {
 	const resource = new Resource({
 		title: req.body.title,
 		description: req.body.description,
@@ -441,7 +457,7 @@ router.post("/resource/save", async (req, res, next) => {
 	}
 });
 
-router.get("/resource/:id/edit", async (req, res, next) => {
+router.get("/resource/:id/edit", authenticateToken, async (req, res, next) => {
 	try {
 		const resource = await Resource.findById(req.params.id);
 		res.render("admin/resourceEditForm", { resource: resource });
@@ -450,22 +466,26 @@ router.get("/resource/:id/edit", async (req, res, next) => {
 	}
 });
 
-router.get("/resource/:id/getFile", async (req, res, next) => {
-	try {
-		const resource = await Resource.findById(req.params.id, {
-			title: 0,
-			description: 0,
-			tags: 0,
-			isActive: 0,
-			createdDate: 0,
-		});
-		res.json({ file: resource.getFile });
-	} catch {
-		res.json({ error: "Resource not found" });
+router.get(
+	"/resource/:id/getFile",
+	authenticateToken,
+	async (req, res, next) => {
+		try {
+			const resource = await Resource.findById(req.params.id, {
+				title: 0,
+				description: 0,
+				tags: 0,
+				isActive: 0,
+				createdDate: 0,
+			});
+			res.json({ file: resource.getFile });
+		} catch {
+			res.json({ error: "Resource not found" });
+		}
 	}
-});
+);
 
-router.put("/resource/:id", async (req, res, next) => {
+router.put("/resource/:id", authenticateToken, async (req, res, next) => {
 	let resource;
 	try {
 		const resource = await Resource.findById(req.params.id);
@@ -488,7 +508,7 @@ router.put("/resource/:id", async (req, res, next) => {
 	}
 });
 
-router.delete("/resource/:id", async (req, res, next) => {
+router.delete("/resource/:id", authenticateToken, async (req, res, next) => {
 	let resource;
 	try {
 		resource = await Resource.findById(req.params.id);
@@ -503,31 +523,35 @@ router.delete("/resource/:id", async (req, res, next) => {
 	}
 });
 
-router.put("/resource/:id/active/:state", async (req, res, next) => {
-	let resource;
-	try {
-		resource = await Resource.findById(req.params.id);
-		if (req.params.state == "true") {
-			resource.isActive = false;
-		} else {
-			resource.isActive = true;
-		}
-		const newResource = await resource.save();
-		res.json({
-			isActive: newResource.isActive,
-		});
-	} catch {
-		if (resource == null) {
+router.put(
+	"/resource/:id/active/:state",
+	authenticateToken,
+	async (req, res, next) => {
+		let resource;
+		try {
+			resource = await Resource.findById(req.params.id);
+			if (req.params.state == "true") {
+				resource.isActive = false;
+			} else {
+				resource.isActive = true;
+			}
+			const newResource = await resource.save();
 			res.json({
-				error: "No such resource exist",
+				isActive: newResource.isActive,
 			});
-		} else {
-			res.json({
-				error: "Error updating resource",
-			});
+		} catch {
+			if (resource == null) {
+				res.json({
+					error: "No such resource exist",
+				});
+			} else {
+				res.json({
+					error: "Error updating resource",
+				});
+			}
 		}
 	}
-});
+);
 
 function saveResourceFile(resource, fileEncoded) {
 	if (fileEncoded == null) return;
@@ -546,7 +570,7 @@ function saveResourceFile(resource, fileEncoded) {
 // Members
 // // // // //
 
-router.get("/member", async (req, res, next) => {
+router.get("/member", authenticateToken, async (req, res, next) => {
 	const members = await Member.find();
 	res.render("admin/member", { members: members });
 });
@@ -555,7 +579,7 @@ router.get("/member/add", (req, res, next) => {
 	res.render("admin/memberForm", { member: new Member() });
 });
 
-router.post("/member/save", async (req, res, next) => {
+router.post("/member/save", authenticateToken, async (req, res, next) => {
 	const member = new Member({
 		name: req.body.name,
 		description: req.body.description,
@@ -574,7 +598,7 @@ router.post("/member/save", async (req, res, next) => {
 	}
 });
 
-router.get("/member/:id/edit", async (req, res, next) => {
+router.get("/member/:id/edit", authenticateToken, async (req, res, next) => {
 	try {
 		const member = await Member.findById(req.params.id, {
 			name: 1,
@@ -588,21 +612,25 @@ router.get("/member/:id/edit", async (req, res, next) => {
 	}
 });
 
-router.get("/member/:id/getPhoto", async (req, res, next) => {
-	try {
-		const member = await Member.findById(req.params.id, {
-			name: 0,
-			description: 0,
-			role: 0,
-			designation: 0,
-		});
-		res.json({ memberPhoto: member.getPhoto });
-	} catch {
-		res.json({ error: "Member not found" });
+router.get(
+	"/member/:id/getPhoto",
+	authenticateToken,
+	async (req, res, next) => {
+		try {
+			const member = await Member.findById(req.params.id, {
+				name: 0,
+				description: 0,
+				role: 0,
+				designation: 0,
+			});
+			res.json({ memberPhoto: member.getPhoto });
+		} catch {
+			res.json({ error: "Member not found" });
+		}
 	}
-});
+);
 
-router.put("/member/:id", async (req, res, next) => {
+router.put("/member/:id", authenticateToken, async (req, res, next) => {
 	let member;
 	try {
 		member = await Member.findById(req.params.id);
@@ -626,7 +654,7 @@ router.put("/member/:id", async (req, res, next) => {
 	}
 });
 
-router.delete("/member/:id", async (req, res, next) => {
+router.delete("/member/:id", authenticateToken, async (req, res, next) => {
 	let member;
 	try {
 		member = await Member.findById(req.params.id);
@@ -658,12 +686,12 @@ function saveMemberPhoto(member, photoEncoded) {
 // CMS
 // // // // //
 
-router.get("/cms", async (req, res, next) => {
+router.get("/cms", authenticateToken, async (req, res, next) => {
 	const cms = await CMS.findOne();
 	res.render("admin/cms", { cms: cms });
 });
 
-router.get("/cms/edit", async (req, res, next) => {
+router.get("/cms/edit", authenticateToken, async (req, res, next) => {
 	try {
 		const cms = await CMS.findOne();
 		console.log(cms);
@@ -673,7 +701,7 @@ router.get("/cms/edit", async (req, res, next) => {
 	}
 });
 
-router.put("/cms/save", async (req, res, next) => {
+router.put("/cms/save", authenticateToken, async (req, res, next) => {
 	let cms;
 	try {
 		cms = await CMS.findOne();
@@ -725,7 +753,7 @@ router.put("/cms/save", async (req, res, next) => {
 // Users
 // // // // //
 
-router.get("/user", async (req, res, next) => {
+router.get("/user", authenticateToken, async (req, res, next) => {
 	const users = await Admin.find();
 	res.render("admin/user", { users: users });
 });
@@ -734,7 +762,7 @@ router.get("/user/add", (req, res, next) => {
 	res.render("admin/userForm", { user: new Admin() });
 });
 
-router.post("/user/save", async (req, res, next) => {
+router.post("/user/save", authenticateToken, async (req, res, next) => {
 	const user = new Admin({
 		username: req.body.username,
 		email: req.body.email,
@@ -752,7 +780,7 @@ router.post("/user/save", async (req, res, next) => {
 	}
 });
 
-router.get("/user/:id/edit", async (req, res, next) => {
+router.get("/user/:id/edit", authenticateToken, async (req, res, next) => {
 	try {
 		const user = await Admin.findById(req.params.id);
 		res.render("admin/userEditForm", { user: user });
@@ -761,7 +789,7 @@ router.get("/user/:id/edit", async (req, res, next) => {
 	}
 });
 
-router.put("/user/:id", async (req, res, next) => {
+router.put("/user/:id", authenticateToken, async (req, res, next) => {
 	let user;
 	try {
 		user = await Admin.findById(req.params.id);
@@ -785,7 +813,7 @@ router.put("/user/:id", async (req, res, next) => {
 	}
 });
 
-router.delete("/user/:id", async (req, res, next) => {
+router.delete("/user/:id", authenticateToken, async (req, res, next) => {
 	let user;
 	try {
 		user = await Admin.findById(req.params.id);
@@ -801,7 +829,7 @@ router.delete("/user/:id", async (req, res, next) => {
 });
 
 function authenticateToken(req, res, next) {
-	if (user == null) res.sendStatus(403);
+	if (user == null) res.redirect("/admin/login");
 	next();
 }
 
