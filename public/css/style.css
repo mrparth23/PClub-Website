@@ -11,6 +11,20 @@ body {
   color: #272829;
 }
 
+body::-webkit-scrollbar {
+  width: 10px;
+  visibility: visible;
+}
+
+body::-webkit-scrollbar-track {
+  border: 7px solid white;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: -webkit-gradient(linear, left bottom, left top, from(#252451), to(#3f054f));
+  background: linear-gradient(0deg, #252451, #3f054f);
+}
+
 a {
   color: #c0c2c2;
   text-decoration: none;
@@ -76,7 +90,7 @@ a:hover {
 }
 
 .header .logo-container .logo img {
-  width: 60px;
+  width: 70px;
 }
 
 .header .nav-menu {
@@ -341,7 +355,7 @@ a:hover {
 }
 
 .footer-section .container .footer-left a img {
-  width: 70px;
+  width: 200px;
 }
 
 .footer-section .container .footer-left .copyright-text {
@@ -1038,7 +1052,8 @@ a:hover {
 }
 
 .upcoming-events .container .row .right .event-list {
-  width: 100%;
+  width: 90%;
+  margin-left: auto;
 }
 
 .upcoming-events .container .row .right .event-list .eventDetails {
@@ -1051,7 +1066,7 @@ a:hover {
 }
 
 .upcoming-events .container .row .right .event-list .eventDetails .img img {
-  max-width: 80%;
+  max-width: 100%;
 }
 
 @media (max-width: 576px) {
@@ -1063,6 +1078,7 @@ a:hover {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
+    margin: 0 auto;
   }
 }
 

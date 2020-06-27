@@ -153,7 +153,6 @@ router.put(
 				announcement.isActive = true;
 			}
 			const newAnnouncement = await announcement.save();
-			console.log(newAnnouncement.isActive, Boolean(req.params.state));
 			res.json({
 				isActive: newAnnouncement.isActive,
 			});
@@ -353,7 +352,6 @@ router.put(
 				event.isActive = true;
 			}
 			const newEvent = await event.save();
-			console.log(newEvent.isActive, Boolean(req.params.state));
 			res.json({
 				isActive: newEvent.isActive,
 			});
@@ -445,7 +443,6 @@ router.post("/resource/save", authenticateToken, async (req, res, next) => {
 		tags: req.body.tags,
 	});
 	saveResourceFile(resource, req.body.file);
-	console.log(resource);
 	try {
 		await resource.save();
 		res.redirect("/admin/resource");
@@ -639,7 +636,6 @@ router.put("/member/:id", authenticateToken, async (req, res, next) => {
 		member.role = req.body.role;
 		member.designation = req.body.designation;
 		saveMemberPhoto(member, req.body.photo);
-		console.log(member);
 		await member.save();
 		res.redirect("/admin/member");
 	} catch {
@@ -694,7 +690,6 @@ router.get("/cms", authenticateToken, async (req, res, next) => {
 router.get("/cms/edit", authenticateToken, async (req, res, next) => {
 	try {
 		const cms = await CMS.findOne();
-		console.log(cms);
 		res.render("admin/cmsEditForm", { cms: cms });
 	} catch {
 		res.redirect("/admin/cms");

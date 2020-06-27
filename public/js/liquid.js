@@ -251,18 +251,17 @@ $(function () {
 $(".btn-liquid").click(function (e) {
 	e.preventDefault();
 	var email = document.querySelector(".email-field input.primary-field");
-	console.log(email.value);
 	$.ajax({
 		url: "/email-subscription",
 		data: { email: email.value },
 		method: "POST",
 		success: function (result) {
-			console.log(result);
 			if (result.error) {
 				alert(result.error);
 			} else {
-				// alert(result.message);
+				alert(result.message);
 			}
+			email.value = "";
 		},
 	});
 });

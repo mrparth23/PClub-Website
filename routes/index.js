@@ -160,15 +160,21 @@ router.post("/email-subscription", async (req, res, next) => {
 	try {
 		let email = await Email.find({ email: req.body.email });
 		if (!email.length) {
-			email = new Email({
-				email: req.body.email,
-			});
-			await email.save();
-			console.log(req.body);
+			if (req.body.email.length) {
+				email = new Email({
+					email: req.body.email,
+				});
+				await email.save();
+				res.json({
+					message:
+						"Congratulation!! Your email is subscribed with PClub.",
+				});
+			} else {
+				res.json({ error: "Please enter a valid email" });
+			}
 		} else {
-			console.log("already exist");
+			res.json({ message: "This email already exists!" });
 		}
-		res.send("Congratulation!! Your email is subscribed with PClub.");
 	} catch {
 		res.json({ error: "Not a valid AU email-address" });
 	}

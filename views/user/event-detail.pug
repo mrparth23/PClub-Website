@@ -57,9 +57,9 @@ block javascripts
                     } else {
                         const carouselContainer = document.querySelector(".carousel-container");
                         var carouselImages = '';
-                        for(var i=0;i<result.images.length;i++){
-                            carouselImages += `<div class="image-holder"><img src=`+result.images[i]+`}></div>`;
-                        }
+                        //- for(var i=0;i<result.images.length;i++){
+                        //-     carouselImages += `<div class="image-holder"><img src=`+result.images[i]+`}></div>`;
+                        //- }
                         carouselImages += `<div id="cloneFirst" class="image-holder"><img src=`+result.images[0]+`></div>`;
                         const data = `<div class="carousel-slide">`+carouselImages+`</div>`;
                         carouselContainer.innerHTML = data;
@@ -67,7 +67,7 @@ block javascripts
                     }
                 },
             });
-        
+
         });
 
         function carousel(){
@@ -98,5 +98,5 @@ block javascripts
                 }
             });
         }
-        
+
 
