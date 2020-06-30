@@ -194,7 +194,22 @@ router.delete(
 // // // // //
 
 router.get("/event", authenticateToken, async (req, res, next) => {
-	const event = await Event.find();
+	const event = await Event.find(
+		{},
+		{
+			title: 1,
+			description: 1,
+			host: 1,
+			category: 1,
+			eventDate: 1,
+			rsvpDate: 1,
+			isActive: 1,
+			createdDate: 1,
+			modifiedDate: 1,
+			rsvpLink: 1,
+			photoLink: 1,
+		}
+	);
 	res.render("admin/event", { events: event });
 });
 
@@ -428,7 +443,16 @@ function saveEventPhotos(event, posterEncoded, imagesEncoded) {
 // // // // //
 
 router.get("/resource", authenticateToken, async (req, res, next) => {
-	const resources = await Resource.find();
+	const resources = await Resource.find(
+		{},
+		{
+			title: 1,
+			description: 1,
+			tags: 1,
+			isActive: 1,
+			createdDate: 1,
+		}
+	);
 	res.render("admin/resource", { resources: resources });
 });
 
@@ -456,7 +480,13 @@ router.post("/resource/save", authenticateToken, async (req, res, next) => {
 
 router.get("/resource/:id/edit", authenticateToken, async (req, res, next) => {
 	try {
-		const resource = await Resource.findById(req.params.id);
+		const resource = await Resource.findById(req.params.id, {
+			title: 1,
+			description: 1,
+			tags: 1,
+			isActive: 1,
+			createdDate: 1,
+		});
 		res.render("admin/resourceEditForm", { resource: resource });
 	} catch {
 		res.redirect("/admin/resource");
@@ -568,7 +598,15 @@ function saveResourceFile(resource, fileEncoded) {
 // // // // //
 
 router.get("/member", authenticateToken, async (req, res, next) => {
-	const members = await Member.find();
+	const members = await Member.find(
+		{},
+		{
+			name: 1,
+			description: 1,
+			role: 1,
+			designation: 1,
+		}
+	);
 	res.render("admin/member", { members: members });
 });
 
