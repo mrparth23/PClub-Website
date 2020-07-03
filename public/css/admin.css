@@ -78,7 +78,7 @@ a:hover {
 }
 
 .nav-toggle.active {
-  left: 250px;
+  left: 251px;
   padding-left: 18px;
 }
 
@@ -712,8 +712,83 @@ form table td textarea:focus {
   }
 }
 
-.cmsEdit {
-  margin: 25px 0;
+.design {
+  height: 100%;
+}
+
+.design #logo {
+  position: absolute;
+  top: 40%;
+  left: 60%;
+  -webkit-transform: translate(-60%, -40%);
+          transform: translate(-60%, -40%);
+  -webkit-animation: fill 0.5s ease forwards 3s;
+          animation: fill 0.5s ease forwards 3s;
+}
+
+.design #logo path:nth-child(1) {
+  stroke-dasharray: 449;
+  stroke-dashoffset: 449;
+  -webkit-animation: line-anim 2s ease forwards;
+          animation: line-anim 2s ease forwards;
+}
+
+.design #logo path:nth-child(2) {
+  stroke-dasharray: 508;
+  stroke-dashoffset: 508;
+  -webkit-animation: line-anim 2s ease forwards 0.4s;
+          animation: line-anim 2s ease forwards 0.4s;
+}
+
+.design #logo path:nth-child(3) {
+  stroke-dasharray: 239;
+  stroke-dashoffset: 239;
+  -webkit-animation: line-anim 2s ease forwards 0.8s;
+          animation: line-anim 2s ease forwards 0.8s;
+}
+
+.design #logo path:nth-child(4) {
+  stroke-dasharray: 422;
+  stroke-dashoffset: 422;
+  -webkit-animation: line-anim 2s ease forwards 1.2s;
+          animation: line-anim 2s ease forwards 1.2s;
+}
+
+.design #logo path:nth-child(5) {
+  stroke-dasharray: 562;
+  stroke-dashoffset: 562;
+  -webkit-animation: line-anim 2s ease forwards 1.6s;
+          animation: line-anim 2s ease forwards 1.6s;
+}
+
+@-webkit-keyframes line-anim {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes line-anim {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@-webkit-keyframes fill {
+  from {
+    fill: transparent;
+  }
+  to {
+    fill: #fff;
+  }
+}
+
+@keyframes fill {
+  from {
+    fill: transparent;
+  }
+  to {
+    fill: #fff;
+  }
 }
 
 .dashboard {
@@ -734,7 +809,7 @@ form table td textarea:focus {
 .dashboard .container .teamMember,
 .dashboard .container .member {
   padding: 20px;
-  color: #ffffff;
+  color: #e2d5e9;
   position: relative;
 }
 
