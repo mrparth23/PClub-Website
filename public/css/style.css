@@ -6318,10 +6318,13 @@ a:hover {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .leader .container .row .member {
-  width: 33.33%;
+  width: 40%;
   padding-right: 15px;
   padding-left: 15px;
   position: relative;
@@ -6362,13 +6365,7 @@ a:hover {
 .leader .container .row .member .member-card p {
   margin-bottom: 0px;
   line-height: 1.5em;
-}
-
-@media (max-width: 1080px) {
-  .leader .container .row .member {
-    width: 50%;
-    margin: 0 auto;
-  }
+  font-size: 18px;
 }
 
 @media (max-width: 720px) {
@@ -6408,7 +6405,7 @@ a:hover {
 }
 
 .team .container .row .member {
-  width: 25%;
+  width: 33.33%;
   padding-right: 15px;
   padding-left: 15px;
   position: relative;
@@ -6440,13 +6437,6 @@ a:hover {
   font-weight: 400;
   font-size: 16px;
   text-align: center;
-}
-
-@media (max-width: 1080px) {
-  .team .container .row .member {
-    width: 33.33%;
-    margin: 0 auto;
-  }
 }
 
 @media (max-width: 992px) {

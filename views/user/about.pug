@@ -37,15 +37,14 @@ block content
             .row
                 - var n=0;
                 for member in members
-                    if member.role === "Admin"
+                    if member.role === "Admin" || member.role === "ADMIN" || member.role === "admin"
                         .member
                             .member-card
                                 img(src=member.getPhoto alt=member.designation)
                                 h3= member.name
                                 h5= member.designation
                                 <hr>
-                                p
-                                    | Description for #{member.designation}.
+                                p!= member.description
                 else
                     | No more Admins
     section.team
@@ -55,7 +54,7 @@ block content
             .row
                 - var n=0;
                 for member in members
-                    if member.role != "Admin"
+                    if !(member.role === "Admin" || member.role === "ADMIN" || member.role === "admin")
                         .member
                             .member-card
                                 img(src=member.getPhoto alt=member.designation)

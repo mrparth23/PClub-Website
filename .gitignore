@@ -3,3 +3,5 @@ package-lock.json
 *.scss
 *.css.map
 .env
+Bugs.txt
+public.rar
