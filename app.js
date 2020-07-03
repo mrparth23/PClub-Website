@@ -11,7 +11,6 @@ var methodOverride = require("method-override");
 var dotenv = require("dotenv");
 dotenv.config();
 
-var jquery = require("jquery");
 var mongoose = require("mongoose");
 
 mongoose.connect(

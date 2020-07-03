@@ -42,7 +42,10 @@ router.get("/", async (req, res, next) => {
 
 router.get("/event", async (req, res, next) => {
 	const cms = await CMS.findOne();
-	const events = await Event.find({ isActive: "true" }).sort({
+	const events = await Event.find(
+		{ isActive: "true" },
+		{ title: 1, host: 1, category: 1, eventDate: 1, poster: 1 }
+	).sort({
 		eventDate: -1,
 	});
 	res.render("user/event", {

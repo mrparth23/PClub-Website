@@ -564,7 +564,7 @@ a:hover {
   padding: 15px 40px;
 }
 
-@media (max-width: 1060px) {
+@media (max-width: 1200px) {
   .event-section .container .row .header-left {
     width: 100%;
   }
@@ -648,7 +648,7 @@ a:hover {
   }
 }
 
-@media (max-width: 1060px) {
+@media (max-width: 1200px) {
   .event-section .container .row .header-right {
     width: 100%;
   }
@@ -691,7 +691,6 @@ a:hover {
 .announcement-section .container .row .announcement-left p {
   color: #8c8d9e;
   margin-top: 10px;
-  margin-bottom: 80px;
 }
 
 @media (max-width: 1060px) {
@@ -918,7 +917,7 @@ a:hover {
 }
 
 .resource .container table tbody tr .title {
-  width: 60%;
+  width: 55%;
   color: #9e1eb8;
   font-weight: bold;
   overflow: hidden;
@@ -929,10 +928,11 @@ a:hover {
 }
 
 .resource .container table tbody tr .actions {
-  width: 15%;
+  width: 20%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  padding-right: 0px;
 }
 
 .resource .container table tbody tr .actions .btn {
@@ -999,7 +999,6 @@ a:hover {
 
 .upcoming-events .container {
   height: 100%;
-  padding: 0;
   position: relative;
 }
 
@@ -1013,9 +1012,9 @@ a:hover {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .upcoming-events .container .row .left {
@@ -1078,6 +1077,7 @@ a:hover {
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
+    margin-left: unset;
     margin: 0 auto;
   }
 }
@@ -1086,6 +1086,10 @@ a:hover {
   .upcoming-events .container .row .right {
     width: 100%;
     padding: 15px;
+    margin: 0 auto;
+  }
+  .upcoming-events .container .row .right .event-list {
+    margin: 0 auto;
   }
 }
 
